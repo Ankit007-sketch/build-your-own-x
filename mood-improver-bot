@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Companion Bot</title>
+    <style>
+:root {
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-success: var(--color-teal-500);
+  --color-success-rgb: 33, 128, 141;
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --line-height-normal: 1.5;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --radius-base: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-success: var(--color-teal-300);
+    --color-success-rgb: 50, 184, 198;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-card-border);
+  padding: var(--space-16) var(--space-20);
+  text-align: center;
+}
+
+.header h1 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
+}
+
+.header p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.chat-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.message {
+  display: flex;
+  gap: var(--space-12);
+  animation: slideIn 0.3s var(--ease-standard);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-base);
+  flex-shrink: 0;
+}
+
+.message.user .message-avatar {
+  background: var(--color-secondary);
+}
+
+.message-content {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12) var(--space-16);
+  max-width: 70%;
+  box-shadow: var(--shadow-sm);
+}
+
+.message.user .message-content {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border-color: transparent;
+}
+
+.activity-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16);
+  margin-top: var(--space-8);
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+
+.breathing-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-300));
+  margin: var(--space-20) auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: var(--font-weight-semibold);
+  transition: transform 4s var(--ease-standard);
+}
+
+.breathing-circle.inhale {
+  transform: scale(1.5);
+}
+
+.breathing-circle.exhale {
+  transform: scale(1);
+}
+
+.mood-recipe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-12);
+  margin-top: var(--space-12);
+}
+
+.recipe-item {
+  text-align: center;
+  padding: var(--space-12);
+  background: var(--color-bg-3);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+}
+
+.recipe-emoji {
+  font-size: var(--font-size-2xl);
+  display: block;
+  margin-bottom: var(--space-8);
+}
+
+.kindness-prompt {
+  background: var(--color-bg-5);
+  padding: var(--space-16);
+  border-radius: var(--radius-base);
+  border-left: 4px solid var(--color-primary);
+  margin-top: var(--space-12);
+}
+
+.emotion-canvas {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-base);
+  margin-top: var(--space-12);
+  cursor: crosshair;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+
+.action-btn {
+  padding: var(--space-12);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.action-btn:hover {
+  background: var(--color-secondary-hover);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.input-container {
+  padding: var(--space-16) var(--space-20);
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-card-border);
+  display: flex;
+  gap: var(--space-12);
+}
+
+.mood-input {
+  flex: 1;
+  padding: var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+}
+
+.mood-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.send-btn {
+  padding: var(--space-12) var(--space-20);
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--duration-normal) var(--ease-standard);
+}
+
+.send-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.send-btn:active {
+  background-color: var(--color-primary-active);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background-color: rgba(var(--color-success-rgb), 0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(var(--color-success-rgb), 0.25);
+  margin-top: var(--space-8);
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>🌟 Mood Companion</h1>
+            <p>Your personal wellness companion with unique mood-boosting activities</p>
+        </div>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <p>Hi there! I'm your Mood Companion. How are you feeling today?</p>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="selectMood('happy')">😊 Happy</button>
+                        <button class="action-btn" onclick="selectMood('stressed')">😰 Stressed</button>
+                        <button class="action-btn" onclick="selectMood('sad')">😢 Sad</button>
+                        <button class="action-btn" onclick="selectMood('anxious')">😟 Anxious</button>
+                        <button class="action-btn" onclick="selectMood('tired')">😴 Tired</button>
+                        <button class="action-btn" onclick="selectMood('angry')">😠 Angry</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                class="mood-input" 
+                id="userInput" 
+                placeholder="Type how you're feeling or choose an activity..."
+                onkeypress="handleKeyPress(event)"
+            >
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+const activities = {
+    breathing: {
+        title: '🫁 Box Breathing Exercise',
+        description: 'Follow the circle to calm your nervous system',
+        duration: 16000
+    },
+    moodRecipe: {
+        energizing: ['☀️ 10 min sunlight', '🚶 Quick walk', '💧 Glass of water', '🎵 Upbeat music'],
+        calming: ['🧘 5 min meditation', '🍵 Herbal tea', '📖 Read a page', '🌿 Deep breaths'],
+        joyful: ['😄 Smile challenge', '🎨 Doodle freely', '📞 Text a friend', '🌺 Gratitude moment']
+    },
+    kindness: [
+        'Send an appreciation message to someone who helped you recently',
+        'Compliment a stranger or colleague today',
+        'Leave a positive review for your favorite local business',
+        'Share helpful knowledge with someone learning something new',
+        'Donate to a cause you care about, even if it\'s small',
+        'Help someone carry their groceries or hold a door',
+        'Write a thank-you note to someone from your past'
+    ],
+    emotionArt: {
+        colors: {
+            happy: '#FFD93D',
+            sad: '#6C9BCF',
+            angry: '#FF6B6B',
+            anxious: '#A8E6CF',
+            tired: '#C9B6E4',
+            stressed: '#FFA07A'
+        }
+    },
+    microActivities: {
+        '1min': ['Stretch your arms above your head', 'Do 10 jumping jacks', 'List 3 things you\'re grateful for', 'Splash cold water on your face'],
+        '5min': ['Progressive muscle relaxation', 'Dance to your favorite song', 'Organize your desk', 'Practice mindful eating with a snack'],
+        '10min': ['Take a nature walk', 'Call a loved one', 'Try a new recipe', 'Write in a journal']
+    },
+    cognitiveReframe: [
+        { negative: 'I failed at this', positive: 'I learned what doesn\'t work and can try differently' },
+        { negative: 'Nobody likes me', positive: 'I have people who care, and I can strengthen those connections' },
+        { negative: 'This is too hard', positive: 'This is challenging, which means I\'m growing' }
+    ]
+};
+
+let breathingInterval = null;
+let currentCanvas = null;
+
+function addMessage(content, isUser = false) {
+    const chatContainer = document.getElementById('chatContainer');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : ''}`;
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = isUser ? '👤' : '🤖';
+    
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    
+    if (typeof content === 'string') {
+        messageContent.innerHTML = `<p>${content}</p>`;
+    } else {
+        messageContent.appendChild(content);
+    }
+    
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(messageContent);
+    chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function selectMood(mood) {
+    addMessage(`I'm feeling ${mood}`, true);
+    
+    setTimeout(() => {
+        respondToMood(mood);
+    }, 500);
+}
+
+function respondToMood(mood) {
+    const responses = {
+        happy: () => {
+            const recipeCard = createMoodRecipe('joyful');
+            addMessage(recipeCard);
+            setTimeout(() => {
+                addMessage('Since you\'re feeling great, this is a perfect time for a random act of kindness! 💝');
+                setTimeout(() => addMessage(createKindnessPrompt()), 500);
+            }, 1000);
+        },
+        stressed: () => {
+            addMessage('Let\'s ease that stress with a quick breathing exercise. This only takes 16 seconds! 🫁');
+            setTimeout(() => addMessage(createBreathingExercise()), 500);
+        },
+        sad: () => {
+            addMessage('I hear you. Let\'s try a Mood Recipe that might help lift your spirits. 🌈');
+            setTimeout(() => addMessage(createMoodRecipe('calming')), 500);
+            setTimeout(() => {
+                addMessage('Would you like to try emotion art therapy? Drawing your feelings can be surprisingly healing. 🎨');
+                setTimeout(() => addMessage(createEmotionCanvas('sad')), 500);
+            }, 2000);
+        },
+        anxious: () => {
+            addMessage('Anxiety can feel overwhelming. Let\'s ground ourselves with box breathing. 🌬️');
+            setTimeout(() => addMessage(createBreathingExercise()), 500);
+            setTimeout(() => {
+                addMessage('Here\'s a cognitive reframe that might help:');
+                setTimeout(() => addMessage(createCognitiveReframe()), 500);
+            }, 3000);
+        },
+        tired: () => {
+            addMessage('Feeling drained? Here\'s an energizing Mood Recipe! ⚡');
+            setTimeout(() => addMessage(createMoodRecipe('energizing')), 500);
+            setTimeout(() => {
+                addMessage('Also, try this 1-minute activity:');
+                setTimeout(() => addMessage(createMicroActivity('1min')), 500);
+            }, 2000);
+        },
+        angry: () => {
+            addMessage('Let\'s channel that energy productively. First, let\'s breathe and reset. 💨');
+            setTimeout(() => addMessage(createBreathingExercise()), 500);
+            setTimeout(() => {
+                addMessage('Now, express it through emotion art - no judgment, just release! 🎨');
+                setTimeout(() => addMessage(createEmotionCanvas('angry')), 500);
+            }, 3000);
+        }
+    };
+    
+    if (responses[mood]) {
+        responses[mood]();
+    }
+}
+
+function createBreathingExercise() {
+    const container = document.createElement('div');
+    container.className = 'activity-card';
+    
+    container.innerHTML = `
+        <div class="activity-header">
+            <span>🫁</span>
+            <span>Box Breathing (4-4-4-4)</span>
+        </div>
+        <p style="margin-bottom: 12px; font-size: 14px; color: var(--color-text-secondary);">
+            Inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Watch the circle!
+        </p>
+        <div class="breathing-circle" id="breathingCircle">Inhale</div>
+        <div style="text-align: center; margin-top: 12px;">
+            <button class="action-btn" onclick="startBreathing()" style="display: inline-block;">Start</button>
+        </div>
+    `;
+    
+    return container;
+}
+
+function startBreathing() {
+    const circle = document.querySelector('#breathingCircle');
+    if (!circle) return;
+    
+    let phase = 0;
+    const phases = [
+        { text: 'Inhale...', class: 'inhale', duration: 4000 },
+        { text: 'Hold...', class: 'inhale', duration: 4000 },
+        { text: 'Exhale...', class: 'exhale', duration: 4000 },
+        { text: 'Hold...', class: 'exhale', duration: 4000 }
+    ];
+    
+    if (breathingInterval) clearInterval(breathingInterval);
+    
+    function nextPhase() {
+        const current = phases[phase % 4];
+        circle.textContent = current.text;
+        circle.className = `breathing-circle ${current.class}`;
+        phase++;
+    }
+    
+    nextPhase();
+    breathingInterval = setInterval(nextPhase, 4000);
+    
+    setTimeout(() => {
+        if (breathingInterval) clearInterval(breathingInterval);
+        addMessage('Great job! How do you feel now? 🌟');
+        addMessage(createStatusBadge('Breathing exercise completed!'));
+    }, 16000);
+}
+
+function createMoodRecipe(type) {
+    const container = document.createElement('div');
+    container.className = 'activity-card';
+    
+    const recipes = activities.moodRecipe[type];
+    
+    container.innerHTML = `
+        <div class="activity-header">
+            <span>🧪</span>
+            <span>Your Personalized Mood Recipe</span>
+        </div>
+        <p style="margin-bottom: 12px; font-size: 14px; color: var(--color-text-secondary);">
+            Try these quick activities in the next hour:
+        </p>
+        <div class="mood-recipe">
+            ${recipes.map(item => {
+                const [emoji, ...text] = item.split(' ');
+                return `
+                    <div class="recipe-item">
+                        <span class="recipe-emoji">${emoji}</span>
+                        <span>${text.join(' ')}</span>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+    `;
+    
+    return container;
+}
+
+function createKindnessPrompt() {
+    const container = document.createElement('div');
+    container.className = 'activity-card';
+    
+    const randomKindness = activities.kindness[Math.floor(Math.random() * activities.kindness.length)];
+    
+    container.innerHTML = `
+        <div class="activity-header">
+            <span>💝</span>
+            <span>Random Act of Kindness</span>
+        </div>
+        <div class="kindness-prompt">
+            <p style="font-size: 14px; line-height: 1.6;">
+                ${randomKindness}
+            </p>
+        </div>
+        <p style="margin-top: 12px; font-size: 12px; color: var(--color-text-secondary); font-style: italic;">
+            Research shows that helping others boosts your own mood and creates positive feelings! 🌟
+        </p>
+    `;
+    
+    return container;
+}
+
+function createEmotionCanvas(emotion) {
+    const container = document.createElement('div');
+    container.className = 'activity-card';
+    
+    const canvasId = 'emotionCanvas' + Date.now();
+    
+    container.innerHTML = `
+        <div class="activity-header">
+            <span>🎨</span>
+            <span>Emotion Art Therapy</span>
+        </div>
+        <p style="margin-bottom: 12px; font-size: 14px; color: var(--color-text-secondary);">
+            Draw your feelings. No rules, just expression. Click and drag to create!
+        </p>
+        <canvas class="emotion-canvas" id="${canvasId}" width="400" height="200"></canvas>
+        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
+            <button class="action-btn" onclick="clearCanvas('${canvasId}')">Clear</button>
+        </div>
+    `;
+    
+    setTimeout(() => {
+        initCanvas(canvasId, emotion);
+    }, 100);
+    
+    return container;
+}
+
+function initCanvas(canvasId, emotion) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    
+    const color = activities.emotionArt.colors[emotion] || '#000000';
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        ctx.beginPath();
+        ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+    });
+    
+    canvas.addEventListener('mouseup', () => {
+        isDrawing = false;
+    });
+    
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isDrawing = true;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        ctx.beginPath();
+        ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    });
+    
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        ctx.stroke();
+    });
+    
+    canvas.addEventListener('touchend', () => {
+        isDrawing = false;
+    });
+}
+
+function clearCanvas(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function createMicroActivity(duration) {
+    const container = document.createElement('div');
+    container.className = 'activity-card';
+    
+    const activities_list = activities.microActivities[duration];
+    const randomActivity = activities_list[Math.floor(Math.random() * activities_list.length)];
+    
+    container.innerHTML = `
+        <div class="activity-header">
+            <span>⚡</span>
+            <span>${duration.replace('min', '-Minute')} Mood Booster</span>
+        </div>
+        <div class="kindness-prompt">
+            <p style="font-size: 16px; font-weight: 500;">
+                ${randomActivity}
+            </p>
+        </div>
+    `;
+    
+    return container;
+}
+
+function createCognitiveReframe() {
+    const container = document.createElement('div');
+    container.className = 'activity-card';
+    
+    const reframe = activities.cognitiveReframe[Math.floor(Math.random() * activities.cognitiveReframe.length)];
+    
+    container.innerHTML = `
+        <div class="activity-header">
+            <span>🔄</span>
+            <span>Cognitive Reframing</span>
+        </div>
+        <div style="background: var(--color-bg-4); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+            <p style="font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px;">❌ Negative thought:</p>
+            <p style="font-size: 14px;">"${reframe.negative}"</p>
+        </div>
+        <div style="background: var(--color-bg-3); padding: 12px; border-radius: 8px;">
+            <p style="font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px;">✅ Reframed thought:</p>
+            <p style="font-size: 14px;">"${reframe.positive}"</p>
+        </div>
+        <p style="margin-top: 12px; font-size: 12px; color: var(--color-text-secondary); font-style: italic;">
+            Practice catching and reframing negative thoughts to build resilience! 💪
+        </p>
+    `;
+    
+    return container;
+}
+
+function createStatusBadge(text) {
+    const container = document.createElement('div');
+    container.innerHTML = `<div class="status">✓ ${text}</div>`;
+    return container;
+}
+
+function sendMessage() {
+    const input = document.getElementById('userInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    addMessage(message, true);
+    input.value = '';
+    
+    setTimeout(() => {
+        handleUserMessage(message.toLowerCase());
+    }, 500);
+}
+
+function handleUserMessage(message) {
+    if (message.includes('breath') || message.includes('anxious') || message.includes('panic')) {
+        addMessage('Let\'s do a breathing exercise together! 🫁');
+        setTimeout(() => addMessage(createBreathingExercise()), 500);
+    } else if (message.includes('kind') || message.includes('help')) {
+        addMessage('How wonderful! Here\'s a kindness idea: 💝');
+        setTimeout(() => addMessage(createKindnessPrompt()), 500);
+    } else if (message.includes('draw') || message.includes('art') || message.includes('express')) {
+        addMessage('Let\'s express through art! 🎨');
+        setTimeout(() => addMessage(createEmotionCanvas('happy')), 500);
+    } else if (message.includes('recipe') || message.includes('activity')) {
+        const types = ['energizing', 'calming', 'joyful'];
+        const randomType = types[Math.floor(Math.random() * types.length)];
+        addMessage(`Here's a ${randomType} mood recipe for you! 🧪`);
+        setTimeout(() => addMessage(createMoodRecipe(randomType)), 500);
+    } else if (message.includes('quick') || message.includes('1 min')) {
+        addMessage('Perfect! Here\'s a quick 1-minute booster: ⚡');
+        setTimeout(() => addMessage(createMicroActivity('1min')), 500);
+    } else if (message.includes('reframe') || message.includes('negative')) {
+        addMessage('Let\'s work on reframing that thought! 🔄');
+        setTimeout(() => addMessage(createCognitiveReframe()), 500);
+    } else {
+        addMessage('I\'m here to help! You can try: breathing exercises, mood recipes, kindness prompts, emotion art, or cognitive reframing. What sounds good? 🌟');
+    }
+}
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+    </script>
+</body>
+</html>
